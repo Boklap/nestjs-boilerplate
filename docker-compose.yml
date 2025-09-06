@@ -1,0 +1,52 @@
+services:
+  database:
+    image: postgres:13.22
+    container_name: database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: ${PG_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - nestjs-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-development
+    container_name: backend
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "6969:3000"
+      - "2269:22"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - nestjs-net
+
+networks:
+  nestjs-net:
+    driver: bridge
+
+volumes:
+  db-data:
+
+    

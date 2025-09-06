@@ -1,0 +1,17 @@
+FROM node:22.19.0
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y openssh-server && \
+    mkdir /var/run/sshd
+RUN echo 'root:root' | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "cd /app" >> /root/.bashrc
+
+COPY package*.json ./
+
+RUN npm install
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+CMD service ssh start && npm run start:dev
