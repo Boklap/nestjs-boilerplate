@@ -5,6 +5,7 @@ import databaseConfig from "./database.config";
 import applicationConfig from "./application.config";
 import loggerDevConfig from "./logger.dev.config";
 import loggerProdConfig from "./logger.prod.config";
+import swaggerConfig from "./swagger.config";
 
 export const configModuleOptions: ConfigModuleOptions<Record<string, any>> | undefined = {
     isGlobal: true,
@@ -15,6 +16,7 @@ export const configModuleOptions: ConfigModuleOptions<Record<string, any>> | und
         databaseConfig,
         applicationConfig,
         loggerDevConfig,
-        loggerProdConfig
+        loggerProdConfig,
+        swaggerConfig
     ]
 }

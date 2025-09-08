@@ -12,7 +12,7 @@ describe('HealthService', () => {
     service = module.get<HealthService>(HealthService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should be Healthy', () => {
+    expect(service.check()).toBe("Healthy");
   });
 });

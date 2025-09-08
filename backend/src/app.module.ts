@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { configModuleOptions } from './config/config-module.config';
 import { DatabaseModule } from './infrastructure/database/db.module';
@@ -14,8 +12,6 @@ import { HealthModule } from './modules/health/health.module';
     LoggerModule,
     HealthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 
 export class AppModule {}
